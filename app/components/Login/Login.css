@@ -1,0 +1,12 @@
+.container {
+text-align: center;
+ margin-top: 50%;
+ margin: 20px;
+}
+.backButton {
+  position: absolute;
+}
+button {
+  margin: 10px;
+}
+
