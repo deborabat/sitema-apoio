@@ -1,31 +1,23 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { NotificationManager } from '../../components/ReactNotifications'
+import Loading from '../../components/Loading'
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import './Login.css';
-import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Row, Col, Label, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
+const Schema = Yup.object().shape({
+  email: Yup.string().email("Email invalido").required("Obrigatório"),
+  password: Yup.string().required("Obrigatório"),
+})
+
+import { auth } from '../../services/api'
 export default class Login extends Component {
-  state = {
-    email: '',
-    password: '',
-    // modal: 'false',
-    // setModal: 'false'
-  }
+  state = { loading: false }
 
   // toggle = () => this.setState({ modal: !this.state.modal });
-
-  handleEmail = (event) => {
-    this.setState({
-      ...this.state,
-      email: event.target.value
-    })
-  }
-  handlePassword = (event) => {
-    this.setState({
-      ...this.state,
-      password: event.target.value
-    })
-  }
   render() {
     return (
       <>
@@ -40,46 +32,88 @@ export default class Login extends Component {
         </div>
 
         <div className="container">
-          <Form>
-            <FormGroup>
-              <Label for="exampleEmail">Email</Label>
-              <Input
-                type="email"
-                name="email"
-                value={this.state.email}
-                onChange={this.handleEmail}
-                id="exampleEmail"
-                placeholder="insira seu email"
-              />
-            </FormGroup>
-            <Label for="exemplePassword">senha</Label>
-            <Input
-              type="password"
-              value={this.state.password}
-              onChange={this.handlePassword}
-              placeholder="insira sua senha"
-            />
-          </Form>
-          <Button onClick={
-            () => {
-              this.props.history.push("/register-room")
-            }
-          } >
-            continuar
-          </Button>
+          <Formik
+            onSubmit={async (values) => {
+              const { email, password } = values
+              this.setState({ ...this.state, loading: true })
+              try {
+                const response = await auth({ email, password })
+                await localStorage.setItem("token", response.data.token);
+                await localStorage.setItem("role", response.data.role);
+                this.props.history.push('/app/report')
+                this.setState({ ...this.state, loading: false })
+                console.log(response)
+              } catch (error) {
+                console.log({ error })
+                NotificationManager.warning(
+                  '',
+                  'Credenciais incorretas',
+                  3000,
+                  null,
+                  null
+                )
+                this.setState({ ...this.state, loading: false })
+              }
+              // this.props.history.push("/register")
+            }}
+            initialValues={{
+              email: "admin@admin.com",
+              password: "123456"
+            }}
+            validationSchema={Schema}
+          >
+
+            <Form>
+              <Row style={{ margin: 50 }}>
+                <Col xs="12" className="mt-5">
+
+                  <Label >Email</Label>
+                  <Field
+                    name="email"
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        type="email"
+                        name="email"
+                        placeholder="Insira seu email"
+                      />
+                    )}
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="strong"
+                    className="text-danger mt-1"
+                  />
+                </Col>
+                <Col xs="12" className="mt-2">
+
+                  <Label >Senha</Label>
+                  <Field
+                    name="password"
+                    type="password"
+                    render={({ field }) => (
+                      <Input
+                        {...field}
+                        type="password"
+                        name="password"
+                        placeholder="Insira sua Senha"
+                      />
+                    )}
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component="strong"
+                    className="text-danger mt-1"
+                  />
+                </Col>
+                <Col xs="12" className="d-flex justify-content-center">
+                  <Button type="submit" >Entrar</Button>
+                </Col>
+              </Row>
+            </Form>
+          </Formik>
+          <Loading loading={this.state.loading} />
         </div>
-        {/* <div>
-          <Button onClick={toggle}>{buttonLabel}Criar conta</Button>
-          <Modal isOpen={this.state.modal} toggle={toggle} className={className}>
-            <ModalHeader toggle={toggle}>Atenção</ModalHeader>
-            <ModalBody>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-            </ModalBody>
-            <ModalFooter>
-              <Button color="secondary" onClick={toggle}>OK</Button>
-            </ModalFooter>
-          </Modal>
-        </div> */}
       </>
     );
   }

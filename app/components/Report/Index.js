@@ -29,11 +29,7 @@ const Report = (props) => {
             </tr>
           </tbody>
         </Table>
-        <Button className="my-2" onClick={() => {
-          props.history.goBack()
-        }} >
-          voltar
-      </Button>
+
       </Col>
     </Row>
   );
