@@ -9,6 +9,7 @@ import RegisterPage from '../pages/RegisterPage'
 import RegisterRoomPage from '../pages/RegisterRoomPage'
 import ReservePage from '../pages/ReservePage'
 import Navbar from '../components/Navbar'
+import CounterPage from '../pages/CounterPage'
 
 
 export default class App extends Component {
@@ -18,6 +19,7 @@ export default class App extends Component {
       <>
         <Navbar history={this.props.history} />
         <Switch>
+          <Route path={`/app/counter`} component={CounterPage} />
           <Route path={`/app/report`} component={ReportPage} />
           <Route path={`/app/register-room`} component={RegisterRoomPage} />
           <Route path={`/app/register`} component={RegisterPage} />

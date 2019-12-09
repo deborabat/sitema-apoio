@@ -17,3 +17,8 @@ export const createUser = ({ name, email, password, type }) => api.request({
   url: "v1/users",
   data: { username: name, email, password, type_user: type }
 })
+
+export const indexUser = () => api.request({
+  method: "GET",
+  url: "v1/users"
+})
