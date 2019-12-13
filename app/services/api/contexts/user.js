@@ -33,3 +33,14 @@ export const indexUser = () => api.request({
   method: "GET",
   url: "v1/users"
 })
+
+export const createReport = ({ name, type_report, text }) => api.request({
+  method: "POST",
+  url: "v1/report",
+  data: { name, type_report, text }
+})
+
+export const indexReport = () => api.request({
+  method: "GET",
+  url: "v1/report"
+})

@@ -32,6 +32,13 @@ export default class NavbarComponent extends Component {
               </Link>
                   </NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink >
+                    <Link to={"/app/report"}>
+                      Cadastrar Relatorio
+              </Link>
+                  </NavLink>
+                </NavItem>
               </>
             )}
             <NavItem>
@@ -52,6 +59,13 @@ export default class NavbarComponent extends Component {
               <NavLink >
                 <Link to={"/app/list-room"}>
                   Salas
+              </Link>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink >
+                <Link to={"/app/list-report"}>
+                  Relatorios
               </Link>
               </NavLink>
             </NavItem>
