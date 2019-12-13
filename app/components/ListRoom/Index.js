@@ -1,26 +1,25 @@
 // @flow
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
-// import './Counter.css';
 import ReactTable from 'react-table'
-import { indexUser } from '../../services/api'
+import { indexRoom } from '../../services/api'
 
 
 const columns = [{
   Header: 'Nome',
-  accessor: 'username',
+  accessor: 'title',
   Cell: props => <span className='d-flex justify-content-center'>{props.value}</span>
 }, {
-  Header: 'tipo de usuario',
-  accessor: 'type_user',
+  Header: 'Bloco',
+  accessor: 'block',
   Cell: props => <span className='d-flex justify-content-center'>{props.value}</span>
 }, {
-  Header: 'Email',
-  accessor: 'email',
+  Header: 'Departamento',
+  accessor: 'department',
   Cell: props => <span className='d-flex justify-content-center '>{props.value}</span>
 }
 ]
-export default class Counter extends Component {
+export default class ListRoom extends Component {
 
   state = {
     data: []
@@ -28,19 +27,17 @@ export default class Counter extends Component {
   componentDidUpdate() {
     console.log(this.state)
   }
-  getUsers = async () => {
+
+
+  async componentDidMount() {
     try {
-      const response = await indexUser();
+      const response = await indexRoom();
       console.log({ response: response.data })
       this.setState({ ...this.state, data: response.data })
 
     } catch (error) {
       console.log({ error })
     }
-  }
-
-  async componentDidMount() {
-    await this.getUsers()
   }
   render() {
     return (

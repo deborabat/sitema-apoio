@@ -12,6 +12,17 @@ export const createRoom = ({ title, department, block }) => api.request({
   data: { title, department, block }
 })
 
+export const indexRoom = () => api.request({
+  method: "GET",
+  url: "v1/room"
+})
+
+export const createRoomSchedule = ({ room_id, date }) => api.request({
+  method: "POST",
+  url: "v1/room/schedule",
+  data: { room_id, date }
+})
+
 export const createUser = ({ name, email, password, type }) => api.request({
   method: "POST",
   url: "v1/users",

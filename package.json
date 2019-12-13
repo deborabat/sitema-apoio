@@ -274,6 +274,8 @@
     "moment": "^2.24.0",
     "perfect-scrollbar": "^1.4.0",
     "react": "^16.12.0",
+    "react-calendar": "^2.19.2",
+    "react-datepicker": "^2.10.1",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.18",
     "react-loading": "^2.0.3",

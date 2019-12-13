@@ -48,6 +48,13 @@ export default class NavbarComponent extends Component {
               </Link>
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink >
+                <Link to={"/app/list-room"}>
+                  Salas
+              </Link>
+              </NavLink>
+            </NavItem>
           </Nav>
           <Button color="link" className="text-white"
             onClick={async () => {
